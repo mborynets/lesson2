@@ -1,25 +1,24 @@
 -module(lesson2_task07).
--export([flattern/1]).
--import(io, [format/2]).
+-export([flatten/1]).
+-import(lesson2_task05, [reverse/1]).
 
-flattern(Arr) ->
-    flattern(Arr, []).
+flatten(Arr) ->
+    flatten(Arr, []).
 
-flattern([[H|T1]|T2], [H2|T3]) ->
-    io:format("[[H|T1]|T2] -> ~p, ~p~n", [[T1|T2], [H2,T3,H]]),
-    flattern([T1|T2], [H2,H]);
+flatten([[H|[]]|T], Res) ->
+    flatten(T, [H|Res]);
 
-flattern([[]|T2], T) ->
-    io:format("[[]|T2] -> ~p, ~p~n", [T2, T]),
-    flattern(T2, T);
+flatten([[H|T2] | T], Res) ->
+    flatten([T2|T], [H|Res]);
 
-flattern([H|T1], []) ->
-    io:format("[H|T1] -> ~p, ~p~n", [T1, [H]]),
-    flattern(T1, [H]);
+flatten([[]|T], Res) ->
+    flatten(T, Res);
 
-flattern([H|T1], [H2|T2]) ->
-    io:format("[H|T1] -> ~p, ~p~n", [T1, [H2,T2,H]]),
-    flattern(T1, [H2,T2,H]);
+flatten([H|T], Res) ->
+    flatten(T, [H|Res]);
 
-flattern([], T) ->
-    T.
+flatten([], Res) ->
+    lesson2_task05:reverse(Res);
+
+flatten(H, Res) ->
+    flatten([], [H|Res]).
